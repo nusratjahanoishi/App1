@@ -130,6 +130,7 @@ class _signinState extends State<signin> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           behavior: SnackBarBehavior.floating,
+                                          duration: Duration(seconds: 3),
                                           // content: Text("Login falied, try again !")
                                           content: Text("$result")
                                       )
@@ -153,10 +154,36 @@ class _signinState extends State<signin> {
                             ),
                           ),
                           FloatingActionButton.extended(
-                            onPressed: () {
+                            onPressed: () async
+    {
+      try {
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        if (googleUser == null) {
+          // User canceled the Google Sign In process
+          return;
+        }
+
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        final UserCredential authResult = await FirebaseAuth.instance.signInWithCredential(credential);
+        final User? user = authResult.user;
+
+        if (user != null) {
+          // Google Sign In successful, do something with user
+          print('Google Sign In successful: ${user.displayName}');
+        }
+      } catch (e) {
+        // Handle errors during Google Sign In
+        print('Error during Google Sign In: $e');
+      }
+    },
 
                               // Implement Google Sign In here
-                            },
+
                             icon: Image.network(
                               'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZLQmL6MrQdyrmcqs7hqL51DtWLIKPVr7Znr7ndd9Fiw&s',
                               fit: BoxFit.cover,
