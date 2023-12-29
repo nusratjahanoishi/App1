@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:nutritionapp/pages/googlesignin.dart';
+import 'package:provider/provider.dart';
+import 'googlesignin.dart';
 import 'SignUp.dart';
 import 'ForgetPassword.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nutritionapp/databaseService.dart';
-
+import 'homepage.dart';
 class signin extends StatefulWidget {
 
   final togglePage;
@@ -116,9 +120,11 @@ class _signinState extends State<signin> {
                         children: [
                           TextButton(
                             onPressed: () async {
+
                               if (_formKeyLogin.currentState!.validate()) {
                                 setState(() {
                                   loadingVisible = true;
+
                                 });
                                 dynamic result = await DatabaseService().loginUser(emailController.text, passwordController.text);
 
@@ -131,12 +137,13 @@ class _signinState extends State<signin> {
                                       SnackBar(
                                           behavior: SnackBarBehavior.floating,
                                           duration: Duration(seconds: 3),
-                                          // content: Text("Login falied, try again !")
-                                          content: Text("$result")
+                                          content: Text("Login falied, try again !")
+                                         // content: Text("$result")
                                       )
                                   );
                                 }
                               }
+
                             },
                             child: Text(
                               "Sign In",
@@ -155,32 +162,12 @@ class _signinState extends State<signin> {
                           ),
                           FloatingActionButton.extended(
                             onPressed: () async
-    {
-      try {
-        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-        if (googleUser == null) {
-          // User canceled the Google Sign In process
-          return;
-        }
+                            {
+                              final provider=Provider.of<GoogleSignInProvider>(context,listen: false);
+                              provider.googleLogin();
 
-        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
+                            },
 
-        final UserCredential authResult = await FirebaseAuth.instance.signInWithCredential(credential);
-        final User? user = authResult.user;
-
-        if (user != null) {
-          // Google Sign In successful, do something with user
-          print('Google Sign In successful: ${user.displayName}');
-        }
-      } catch (e) {
-        // Handle errors during Google Sign In
-        print('Error during Google Sign In: $e');
-      }
-    },
 
                               // Implement Google Sign In here
 
