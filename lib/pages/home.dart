@@ -1,8 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:nutritionapp/pages/homepage.dart';
 
 import '../user.dart';
 import '../databaseService.dart';
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:carousel_slider/carousel_options.dart';
 
 class Profile extends StatefulWidget {
   final String uid;
@@ -13,7 +16,7 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   Widget roleSpecificWidget(String role) {
     if (role == "role_general_user") {
       return ElevatedButton(onPressed: () {
@@ -39,213 +42,381 @@ class _ProfileState extends State<Profile> {
       return SizedBox.shrink();
     }
   }
+  int currIndex = 0;
+  final PageController tabPageController = PageController();
+  final List<String> carouselItems = [
+    'assets/vegetarian.png',
+    'assets/Non- vegetarian.png',
+    'assets/bdp digital zone.png',
+  ];
+
+  late TabController _tabController;
 
   @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: carouselItems.length, vsync: this);
+  }
+
+
+
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-
-        flexibleSpace: null,
-        // elevation: 2,
-        backgroundColor: Color(0xffE0E0E0),
-
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(left: 2, right: 10),
-            child: Row(
-              children: [
-                Icon(Icons.search_sharp, size: 30),
-                SizedBox(width: 8),
-                Icon(Icons.settings, size: 30),
-
-              ],
-            ),
-          ),
-
-        ],
-      ),
-      drawer: Drawer(
-        child: StreamBuilder<CustomUser>(
-          stream: DatabaseService().getUserByUserID(widget.uid),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              CustomUser? customUser = snapshot.data;
-              return ListView(
-                padding: EdgeInsets.zero,
+      backgroundColor: Color(0xffdFBF9F1),//FFFBF5
+      body: Stack(
+        children: [
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("Name: ${customUser?.name}", style: TextStyle(fontSize: 20, color: Colors.white),),
-                        Text("Email: ${customUser?.email}", style: TextStyle(fontSize: 20, color: Colors.white),),
-                        //Text("User ID: ${customUser?.uid}", style: TextStyle(fontSize: 20, color: Colors.white),),
-                        //Text("Role: ${customUser?.role}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                    FadeInUp(
+                    duration: Duration(milliseconds: 1300),
+                    child: IconButton(
+                      icon: Icon(Icons.account_circle_rounded, color: Colors.black),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return StreamBuilder<CustomUser>(
+                              stream: DatabaseService().getUserByUserID(widget.uid),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  CustomUser? customUser = snapshot.data;
+                                  return ListView(
+                                    padding: EdgeInsets.zero,
+                                    children: [
+                                      DrawerHeader(
+                                        decoration: BoxDecoration(
+                                          color: Colors.blue,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text("Name: ${customUser?.name}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                            Text("Email: ${customUser?.email}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                            //Text("User ID: ${customUser?.uid}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                            //Text("Role: ${customUser?.role}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                          ],
+                                        ),
+                                      ),
+                                      roleSpecificWidget(customUser!.role),
+                                      ListTile(
+                                        title: Text('Logout'),
+                                        onTap: () async {
+                                          await DatabaseService().logoutUser();
+                                          Navigator.pop(context); // Close the drawer after logout
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                } else {
+                                  return Text("Data Not Found");
+                                }
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+
+                         FadeInUp(
+                          duration: Duration(milliseconds: 1000),
+                          child: Column(
+                            children: [
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  //crossAxisAlignment: ,
+                                  children: [
+                                    Text(
+                                      "Welcome To Leaflife",
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        FadeInUp(duration: Duration(milliseconds: 1300), child: IconButton(
+                          icon: Icon(Icons.settings, color: Colors.black,), onPressed: () {},
+                        )),
                       ],
                     ),
                   ),
-                  roleSpecificWidget(customUser!.role),
-                  ListTile(
-                    title: Text('Logout'),
-                    onTap: () async {
-                      await DatabaseService().logoutUser();
-                      Navigator.pop(context); // Close the drawer after logout
+                  SizedBox(height: 20),
+                  FadeInUp(
+                    duration: Duration(milliseconds: 1400),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Food Finder",
+                                    style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+
+                              ],
+                            ),
+                          ]
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5),
+
+                  CarouselSlider.builder(
+                    options: CarouselOptions(
+                      aspectRatio: 14 / 9,
+                      viewportFraction: 0.75,
+                      enlargeCenterPage: true,
+                      scrollDirection: Axis.horizontal,
+                      height: 280,
+                      clipBehavior: Clip.antiAlias,
+                      autoPlay: true,
+                      onPageChanged: (index, reason) {
+                        setState(() {
+                          currIndex = index;
+                          _tabController.animateTo(index);
+                        });
+                      },
+                    ),
+                    itemCount: carouselItems.length,
+                    itemBuilder: (BuildContext context, int index, int realIndex) {
+                      return _buildCarouselItem(context, carouselItems[index], index);
                     },
                   ),
-                ],
-              );
-            } else {
-              return Text("Data Not Found");
-            }
-          },
-        ),
-      ),
+                  SizedBox(height: 10),
+                  Container(
+                    alignment: Alignment.center,
+                    child: TabPageSelector(
+                      controller: _tabController,
+                      color: Colors.grey,
+                      selectedColor: Colors.orange,
+                      borderStyle: BorderStyle.none,
+                    ),
+                  ),
+                  FadeInUp(
+                    duration: Duration(milliseconds: 1400),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Fitness and Health calculation",
+                                  style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                              Text("All"),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Container(
+                            height: 150,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                makeBestCategory(
+                                  image: 'assets/bmr.png',
+                                  title: "",
+                                  onTap: () {
+                                    print('BMI tapped!');
+                                  },
+                                ),
+                                makeBestCategory(
+                                  image: 'assets/Calorie Counter.png',
+                                  title: '',
+                                  onTap: () {
+                                    print('BMR tapped!');
+                                  },
+                                ),
+                                makeBestCategory(
+                                  image: 'assets/Meal Planner.png',
+                                  title: '',
+                                  onTap: () {
+                                    print('Calories tapped!');
+                                  },
+                                ),
+                                // Add more categories as needed
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  FadeInUp(
+                    duration: Duration(milliseconds: 1400),
+                    child: Container(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Categories",
+                                  style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                              Text("All"),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          FadeInUp(child: SingleChildScrollView(
 
-      body:
-      SingleChildScrollView(
-        // scrollDirection: Axis.horizontal,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 5,
-                  width: MediaQuery.of(context).size.width / 1,
-                  // color: Colors.blueGrey,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/mushroom r khaon.jpg'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30, top: 110),
-                    child: Text(
-                      "Food Finder",
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          color: Colors.white),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 5,
-                  width: MediaQuery.of(context).size.width / 1,
-                  // color: Colors.blueGrey,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/meal.jpg'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30, top: 110),
-                    child: Text(
-                      "Meal Planner",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        color: Colors.white,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              clipBehavior: Clip.antiAlias,
+                              child: GestureDetector(
+                                onTap: () {
+
+                                  print('Container pressed!');
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: MediaQuery.of(context).size.height / 4,
+                                  width: MediaQuery.of(context).size.width / 1,
+                                  child: Image.asset(
+                                    'assets/Meal Planner.png',
+                                    fit: BoxFit.cover,
+                                    height: MediaQuery.of(context).size.height / 4,
+                                    width: MediaQuery.of(context).size.width / 1,
+                                  ),
+                                ),
+                              ),
+                            ),),),
+                          SizedBox(height: 15,),
+                          FadeInUp(child: SingleChildScrollView(
+
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              clipBehavior: Clip.antiAlias,
+                              child: GestureDetector(
+                                onTap: () {
+
+                                  print('Container pressed!');
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: MediaQuery.of(context).size.height / 4,
+                                  width: MediaQuery.of(context).size.width / 1,
+                                  child: Image.asset(
+                                    'assets/Doctor’s Consultation.png',
+                                    fit: BoxFit.cover,
+                                    height: MediaQuery.of(context).size.height / 4,
+                                    width: MediaQuery.of(context).size.width / 1,
+                                  ),
+                                ),
+                              ),
+                            ),),),
+                          SizedBox(height: 15,),
+                          FadeInUp(child: SingleChildScrollView(
+
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              clipBehavior: Clip.antiAlias,
+                              child: GestureDetector(
+                                onTap: () {
+
+                                  print('Container pressed!');
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  height: MediaQuery.of(context).size.height / 4,
+                                  width: MediaQuery.of(context).size.width / 1,
+                                  child: Image.asset(
+                                    'assets/bdp digital zone.png',
+                                    fit: BoxFit.cover,
+                                    height: MediaQuery.of(context).size.height / 4,
+                                    width: MediaQuery.of(context).size.width / 1,
+                                  ),
+                                ),
+                              ),
+                            ),),),
+                          SizedBox(height: 20,)
+
+                        ],
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 5,
-                  width: MediaQuery.of(context).size.width / 1,
-                  // color: Colors.blueGrey,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/BMR&BMI.jpg'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30, top: 80),
-                    child: Text(
-                      "BMR & BMI",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 5,
-                  width: MediaQuery.of(context).size.width / 1,
-                  // color: Colors.blueGrey,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/DietNote-04.jpg'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30, top: 110),
-                    child: Text(
-                      "Personal Diet Plan",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 5,
-                  width: MediaQuery.of(context).size.width / 1,
-                  // color: Colors.blueGrey,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/Health-Insurance.jpg'),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 30, top: 110),
-                    child: Text(
-                      "Doctor's Consultation",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCarouselItem(BuildContext context, String imageUrl, int index) {
+    return GestureDetector(
+      onTap: () {
+        handleImageTap(index);
+      },
+      child: Container(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          clipBehavior: Clip.antiAlias,
+          child: Image.asset(
+            imageUrl,
+            fit: BoxFit.cover,
           ),
         ),
       ),
     );
+  }
 
+  Widget makeBestCategory({image, title, onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AspectRatio(
+        aspectRatio: 3 / 2.2,
+        child: Container(
+          margin: EdgeInsets.only(right: 20),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            image: DecorationImage(
+              image: AssetImage(image),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              title,
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void handleImageTap(int index) {
+    switch (index) {
+      case 0:
+      // Handle the onTap event for the first image
+        print('First image tapped! URL: ${carouselItems[index]}');
+        // Add your action for the first image
+        break;
+      case 1:
+      // Handle the onTap event for the second image
+        print('Second image tapped! URL: ${carouselItems[index]}');
+        // Add your action for the second image
+        break;
+    // Add more cases if you have additional images
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 }
-
-
