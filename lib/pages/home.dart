@@ -6,6 +6,7 @@ import '../databaseService.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:carousel_slider/carousel_options.dart';
+import 'BMI.dart';
 
 class Profile extends StatefulWidget {
   final String uid;
@@ -239,9 +240,14 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   },
                                 ),
                                 makeBestCategory(
-                                  image: 'assets/Meal Planner.png',
+                                  image: 'assets/bmi.jpeg',
                                   title: '',
                                   onTap: () {
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => BMI_page(title: 'BMI')),
+                                    );
                                     print('Calories tapped!');
                                   },
                                 ),
