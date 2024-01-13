@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:nutritionapp/Meal Planner/Common/colo_extension.dart';
 import 'package:nutritionapp/pages/homepage.dart';
 
+import '../Meal Planner/view/meal_planner/meal_planner_view.dart';
 import '../user.dart';
 import '../databaseService.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +65,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffdFBF9F1),//FFFBF5
+      backgroundColor: TColor.white, //Color(0xffdFBF9F1),//FFFBF5
       body: Stack(
         children: [
           SafeArea(
@@ -282,7 +284,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               child: GestureDetector(
                                 onTap: () {
 
-                                  print('Container pressed!');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) =>  const MealPlannerView(),),
+                                  );
+                                  print('Calories tapped!');
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

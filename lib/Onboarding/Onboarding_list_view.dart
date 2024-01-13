@@ -12,7 +12,7 @@ class OnboardingList {
 
 List<OnboardingList> list = [
   OnboardingList(
-    title: 'Welcome to MyNutrition',
+    title: 'Welcome to LifeLeaf',
     animation: 'assets/Animation - 1704557655558.json',
     discription: "Your personal guide to a healthy lifestyle "
   ),
