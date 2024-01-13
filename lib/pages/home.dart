@@ -3,12 +3,14 @@ import 'package:nutritionapp/Meal Planner/Common/colo_extension.dart';
 import 'package:nutritionapp/pages/homepage.dart';
 
 import '../Meal Planner/view/meal_planner/meal_planner_view.dart';
+import '../personalDietplan/planpage.dart';
 import '../user.dart';
 import '../databaseService.dart';
 import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'BMI.dart';
+import 'package:nutritionapp/personalDietplan/Meals.dart';
 
 class Profile extends StatefulWidget {
   final String uid;
@@ -409,7 +411,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       ),
     );
   }
-
   void handleImageTap(int index) {
     switch (index) {
       case 0:
@@ -418,13 +419,24 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         // Add your action for the first image
         break;
       case 1:
-      // Handle the onTap event for the second image
         print('Second image tapped! URL: ${carouselItems[index]}');
         // Add your action for the second image
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Mealpage(),
+          ),
+        );
+         // Navigate to the CartPage
+        print('Third image tapped! URL: ${carouselItems[index]}');
         break;
     // Add more cases if you have additional images
     }
   }
+
+
 
   @override
   void dispose() {
