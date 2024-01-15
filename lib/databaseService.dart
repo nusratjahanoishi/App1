@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:nutritionapp/doctors.dart';
 import 'user.dart';
 import 'package:nutritionapp/pages/SignUp.dart';
 import 'package:nutritionapp/pages/SignIn.dart';
@@ -64,5 +65,57 @@ class DatabaseService {
       print(e.toString());
     }
 }
+  final CollectionReference _doctorCollection =
+  FirebaseFirestore.instance.collection('doctor');
+  Stream<List<Doctors>> getDoctorsData() {
+    return _doctorCollection.snapshots().map((QuerySnapshot querySnapshot) {
 
+      return querySnapshot.docs.map((QueryDocumentSnapshot documentSnapshot) {
+        return Doctors(
+          documentSnapshot.get('image'),
+          documentSnapshot.get('name'),
+          documentSnapshot.get('appointment'),
+          documentSnapshot.get('department'),
+          documentSnapshot.get('time'),
+          documentSnapshot.get('rating'),
+          documentSnapshot.get('uid'),
+        );
+      }).toList();
+    });
+  }
+  Future setAppointmentDate(String uid,String name,String image, bool appointment,String department,String rating,DateTime date,String time,String userId)async{
+
+    try{
+      await FirebaseFirestore.instance.collection('doctor').doc(uid).update({
+        'name': name,
+        'image': image,
+        'appointment': appointment,
+        'department': department,
+        'time':time,
+        'uid':uid,
+        'date':date,
+        'rating':rating,
+        'userUid':userId
+
+      });
+    }on FirebaseException catch(e){
+      print("error  is  ========>${e}");
+    }
+  }
+  Future selectDate(BuildContext context) async {
+    DateTime selectedDate = DateTime.now();
+
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      // Do something with the selected date
+      print("Selected date: ${picked.toLocal()}");
+    }
+    return selectedDate;
+  }
 }
