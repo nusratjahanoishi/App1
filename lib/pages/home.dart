@@ -1,7 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:nutritionapp/Meal Planner/Common/colo_extension.dart';
 import 'package:nutritionapp/pages/doctos_consultation.dart';
-import 'package:nutritionapp/pages/homepage.dart';
+
+import 'package:nutritionapp/pages/EditProfileScreen.dart';
 
 import '../Meal Planner/view/meal_planner/meal_planner_view.dart';
 import '../personalDietplan/planpage.dart';
@@ -23,6 +24,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
+
   Widget roleSpecificWidget(String role) {
     if (role == "role_general_user") {
       return ElevatedButton(onPressed: () {
@@ -82,58 +84,59 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                    FadeInUp(
-                    duration: Duration(milliseconds: 1300),
-                    child: IconButton(
-                      icon: Icon(Icons.account_circle_rounded, color: Colors.black),
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return StreamBuilder<CustomUser>(
-                              stream: DatabaseService().getUserByUserID(widget.uid),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData) {
-                                  CustomUser? customUser = snapshot.data;
-                                  return ListView(
-                                    padding: EdgeInsets.zero,
-                                    children: [
-                                      DrawerHeader(
-                                        decoration: BoxDecoration(
-                                          color: Colors.blue,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                        FadeInUp(
+                          duration: Duration(milliseconds: 1300),
+                          child: IconButton(
+                            icon: Icon(Icons.account_circle_rounded, color: Colors.black),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return StreamBuilder<CustomUser>(
+                                    stream: DatabaseService().getUserByUserID(widget.uid),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        CustomUser? customUser = snapshot.data;
+                                        return ListView(
+                                          padding: EdgeInsets.zero,
                                           children: [
-                                            Text("Name: ${customUser?.name}", style: TextStyle(fontSize: 20, color: Colors.white),),
-                                            Text("Email: ${customUser?.email}", style: TextStyle(fontSize: 20, color: Colors.white),),
-                                            //Text("User ID: ${customUser?.uid}", style: TextStyle(fontSize: 20, color: Colors.white),),
-                                            //Text("Role: ${customUser?.role}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                            DrawerHeader(
+                                              decoration: BoxDecoration(
+                                                color: Colors.blue,
+                                              ),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text("Name: ${customUser?.name}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                                  Text("Email: ${customUser?.email}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                                  //Text("User ID: ${customUser?.uid}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                                  //Text("Role: ${customUser?.role}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                                ],
+                                              ),
+                                            ),
+                                            roleSpecificWidget(customUser!.role),
+                                            ListTile(
+                                              title: Text('Logout'),
+                                              onTap: () async {
+                                                await DatabaseService().logoutUser();
+                                                Navigator.pop(context); // Close the drawer after logout
+                                              },
+                                            ),
                                           ],
-                                        ),
-                                      ),
-                                      roleSpecificWidget(customUser!.role),
-                                      ListTile(
-                                        title: Text('Logout'),
-                                        onTap: () async {
-                                          await DatabaseService().logoutUser();
-                                          Navigator.pop(context); // Close the drawer after logout
-                                        },
-                                      ),
-                                    ],
+                                        );
+                                      } else {
+                                        return Text("Data Not Found");
+                                      }
+                                    },
                                   );
-                                } else {
-                                  return Text("Data Not Found");
-                                }
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
+                                },
+                              );
+                            },
+                          ),
+                        ),
 
-                         FadeInUp(
+
+                        FadeInUp(
                           duration: Duration(milliseconds: 1000),
                           child: Column(
                             children: [
@@ -251,7 +254,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => BMI_page(title: 'BMI')),
+                                      MaterialPageRoute(builder: (context) => BMIPage()),
                                     );
                                     print('Calories tapped!');
                                   },

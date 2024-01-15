@@ -4,7 +4,7 @@ import 'authentication.dart';
 import 'package:flutter/material.dart';
 
 
-import 'package:nutritionapp/pages/homepage.dart';
+import 'package:nutritionapp/pages/EditProfileScreen.dart';
 
 class AuthListener extends StatelessWidget {
   const AuthListener({super.key});

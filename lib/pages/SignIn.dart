@@ -12,7 +12,7 @@ import '../firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nutritionapp/databaseService.dart';
-import 'homepage.dart';
+import 'EditProfileScreen.dart';
 class signin extends StatefulWidget {
 
   final togglePage;
