@@ -1,5 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:nutritionapp/Meal Planner/Common/colo_extension.dart';
+import 'package:nutritionapp/pages/doctos_consultation.dart';
+
 import 'package:nutritionapp/pages/EditProfileScreen.dart';
 
 import '../Meal Planner/view/meal_planner/meal_planner_view.dart';
@@ -315,6 +317,10 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               clipBehavior: Clip.antiAlias,
                               child: GestureDetector(
                                 onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) =>  DoctorConsolation(userId: widget.uid,)));
+
 
                                   print('Container pressed!');
                                 },
