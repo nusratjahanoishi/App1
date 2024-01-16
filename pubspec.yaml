@@ -59,6 +59,7 @@ dependencies:
   image_picker: ^1.0.7
   firebase_storage: ^11.6.0
   flutter_rating_bar: ^4.0.1
+  font_awesome_flutter: ^10.6.0
 
 
 
@@ -90,6 +91,7 @@ flutter:
     - assets/img/
     - assets/icons/
     - assets/images/
+    -
   #- images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

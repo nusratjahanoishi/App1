@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:nutritionapp/Meal Planner/Common/colo_extension.dart';
 import 'package:nutritionapp/pages/doctos_consultation.dart';
-
+import 'package:nutritionapp/BMR and Calorie/InputPage.dart';
 import 'package:nutritionapp/pages/EditProfileScreen.dart';
 
 import '../Meal Planner/view/meal_planner/meal_planner_view.dart';
@@ -244,6 +244,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   image: 'assets/Calorie Counter.png',
                                   title: '',
                                   onTap: () {
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => InputPage(title: "BMR and Calorie")),
+                                    );
                                     print('BMR tapped!');
                                   },
                                 ),
@@ -437,7 +442,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             builder: (context) => Mealpage(),
           ),
         );
-         // Navigate to the CartPage
+        // Navigate to the CartPage
         print('Third image tapped! URL: ${carouselItems[index]}');
         break;
     // Add more cases if you have additional images

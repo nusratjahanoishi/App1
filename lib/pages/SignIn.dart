@@ -186,8 +186,8 @@ class _signinState extends State<signin> {
                                 icon: Image.network(
                                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZLQmL6MrQdyrmcqs7hqL51DtWLIKPVr7Znr7ndd9Fiw&s',
                                   fit: BoxFit.cover,
-                                  width: 20,
-                                  height: 20,
+                                  width: 5,
+                                  height: 5,
                                 ),
                                 label: Text(
                                   "Sign in with Google",

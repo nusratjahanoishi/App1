@@ -22,49 +22,49 @@ class _MealpageState extends State<Mealpage> {
       "calorie": 350,
       "image": "Grilled Chicken Caesar Salad.jpeg",
       "description":
-          "Classic Caesar salad gets a flavor facelift thanks to the grill! Romaine hearts, rosemary marinated chicken and even the bread for the croutons are all grilled to perfection in this healthy Grilled Chicken Caesar Salad!"
+      "Classic Caesar salad gets a flavor facelift thanks to the grill! Romaine hearts, rosemary marinated chicken and even the bread for the croutons are all grilled to perfection in this healthy Grilled Chicken Caesar Salad!"
     },
     {
       "title": "Quinoa and Avocado Power Salad",
       "calorie": 400,
       "image": "Quinoa and Avocado Power Salad.jpeg",
       "description":
-          "With protein-packed quinoa, creamy avocado, grape tomatoes, and crisp cucumbers, this Quinoa Avocado Salad will quickly become a lunchtime staple! A zippy red wine vinaigrette brings it all together, adding lots of flavor while still keeping things light."
+      "With protein-packed quinoa, creamy avocado, grape tomatoes, and crisp cucumbers, this Quinoa Avocado Salad will quickly become a lunchtime staple! A zippy red wine vinaigrette brings it all together, adding lots of flavor while still keeping things light."
     },
     {
       "title": "Mediterranean Chickpea Salad",
       "calorie": 300,
       "image": "Mediterranean Chickpea Salad.jpeg",
       "description":
-          "Whether we’re craving fresh veggies and flavors or simply can’t be bothered to turn on the oven, refreshing summer salads are our go-to all season long. But, when we’re hungry for more than a light side, sometimes we need to bulk things up, just like we do in this Mediterranean chickpea salad.."
+      "Whether we’re craving fresh veggies and flavors or simply can’t be bothered to turn on the oven, refreshing summer salads are our go-to all season long. But, when we’re hungry for more than a light side, sometimes we need to bulk things up, just like we do in this Mediterranean chickpea salad.."
     },
     {
       "title": "Asian Sesame Ginger Tofu Salad",
       "calorie": 250,
       "image": "Asian Sesame Ginger Tofu Salad.jpeg",
       "description":
-          "This Ginger Sesame Tofu Chopped Salad is inspired by the salads that you may find at some American Japanese Restaurants. I’ve always have loved that fresh carrot and gingery zing.  It’s easily adaptable to suit your taste buds. "
+      "This Ginger Sesame Tofu Chopped Salad is inspired by the salads that you may find at some American Japanese Restaurants. I’ve always have loved that fresh carrot and gingery zing.  It’s easily adaptable to suit your taste buds. "
     },
     {
       "title": "Honey Pancakes",
       "calorie": 300,
       "image": "Honey Pancakes.jpeg",
       "description":
-          "Breakfast was my favorite meal of the day growing up, and pancakes were always my breakfast of choice! Nowadays, I'm more of a brunch person, but I still love pancakes (especially with a honey latte)!"
+      "Breakfast was my favorite meal of the day growing up, and pancakes were always my breakfast of choice! Nowadays, I'm more of a brunch person, but I still love pancakes (especially with a honey latte)!"
     },
     {
       "title": "Protein-Packed Breakfast Toast",
       "calorie": 350,
       "image": "Protein-Packed Breakfast Toast.jpeg",
       "description":
-          "Cottage cheese peach toast is the perfect 5 minute summer breakfast. Crispy bread loaded with protein packed cottage cheese, fresh juicy peaches and drizzled with hot honey. Fresh and flavourful!"
+      "Cottage cheese peach toast is the perfect 5 minute summer breakfast. Crispy bread loaded with protein packed cottage cheese, fresh juicy peaches and drizzled with hot honey. Fresh and flavourful!"
     },
     {
       "title": "Vegetable and Egg Wrap for Lunch",
       "calorie": 400,
       "image": "Vegetable and Egg Wrap for Lunch.jpg",
       "description":
-          "Fresh vegetables add crunch and flavor to plain egg salad in this recipe. These low-calorie wraps are perfect for a casual lunch gathering for friends or for taking on a picnic. Just wrap each one tightly in wax paper and then plastic wrap"
+      "Fresh vegetables add crunch and flavor to plain egg salad in this recipe. These low-calorie wraps are perfect for a casual lunch gathering for friends or for taking on a picnic. Just wrap each one tightly in wax paper and then plastic wrap"
     }
   ];
 
@@ -342,5 +342,3 @@ class _GradientContainerState extends State<GradientContainer> {
     );
   }
 }
-
-

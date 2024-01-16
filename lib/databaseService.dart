@@ -3,11 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutritionapp/doctors.dart';
 import 'package:nutritionapp/user.dart';
+import 'package:nutritionapp/BMR and Calorie/Result.dart';
 
 class DatabaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final CollectionReference _userCollection = FirebaseFirestore.instance.collection('users');
   final CollectionReference _bmiRecordsCollection = FirebaseFirestore.instance.collection('bmi_records');
+  final CollectionReference _bmrRecordsCollection = FirebaseFirestore.instance.collection('bmr_records');
+//  final CollectionReference _bmrRecordsCollection = FirebaseFirestore.instance.collection('bmr_records');
+
+
+
 
   Future createUserDoc(String uid, String name, String email, String role) async {
     final docUser = _userCollection.doc(uid);
@@ -68,18 +74,7 @@ class DatabaseService {
       print("Error storing BMI record: $e");
     }
   }
-  Future updateUserProfile(String uid, double weight, int heightFt, int heightInch, String? profilePicUrl) async {
-    try {
-      await _userCollection.doc(uid).update({
-        'weight': weight,
-        'heightFt': heightFt,
-        'heightInch': heightInch,
-        'profilePicUrl': profilePicUrl,
-      });
-    } catch (e) {
-      print("Error updating user profile: $e");
-    }
-  }
+
   final CollectionReference _doctorCollection =
   FirebaseFirestore.instance.collection('doctor');
   Stream<List<Doctors>> getDoctorsData() {
@@ -133,4 +128,34 @@ class DatabaseService {
     }
     return selectedDate;
   }
-}
+
+  Future storeBMRData(String uid, double bmr, String currentCalorie, String goalCalorie, DateTime date) async {
+    try {
+      await _bmrRecordsCollection.add({
+        'uid': uid,
+        'bmr': bmr,
+        'current_calorie': currentCalorie,
+        'goal_calorie': goalCalorie,
+        'date': date,
+      });
+    } catch (e) {
+      print("Error storing BMR data: $e");
+    }
+  }
+
+  Future<void> storeBMRHistory(String uid, double bmr, String currentCalorie, String goalCalorie, DateTime date) async {
+    try {
+      await FirebaseFirestore.instance.collection('bmr_history').doc(uid).collection('history').add({
+        'bmr': bmr,
+        'currentCalorie': currentCalorie,
+        'goalCalorie': goalCalorie,
+        'date': date,
+      });
+    } catch (e) {
+      print('Error storing BMR history: $e');
+    }
+  }
+  }
+
+
+

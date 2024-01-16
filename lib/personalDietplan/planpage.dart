@@ -31,15 +31,15 @@ class _CartPageState extends State<CartPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-          Text(
-            'Total Calorie',
-            style: Theme.of(context).textTheme.headline1,
-          ),
-          Text(
-            formatReal.format(valorTotal),
-            style: Theme.of(context).textTheme.headline4,
-          ),
-        ],),
+            Text(
+              'Total Calorie',
+              style: Theme.of(context).textTheme.headline1,
+            ),
+            Text(
+              formatReal.format(valorTotal),
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],),
       ),
     );
   }
@@ -122,4 +122,3 @@ class _CartButtonState extends State<CartButton> {
     );
   }
 }
-
