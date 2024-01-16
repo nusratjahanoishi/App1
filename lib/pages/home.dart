@@ -431,7 +431,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             builder: (context) => Mealpage(),
           ),
         );
-         // Navigate to the CartPage
+        // Navigate to the CartPage
         print('Third image tapped! URL: ${carouselItems[index]}');
         break;
     // Add more cases if you have additional images
