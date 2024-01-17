@@ -8,7 +8,8 @@ import 'package:nutritionapp/user.dart';
 
 class DoctorConsolation extends StatefulWidget {
   final String userId;
-  const DoctorConsolation({super.key, required this.userId});
+
+  const DoctorConsolation({Key? key, required this.userId}) : super(key: key);
 
   @override
   State<DoctorConsolation> createState() => _DoctorConsolationState();
@@ -60,11 +61,11 @@ class _DoctorConsolationState extends State<DoctorConsolation> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Hi,${customUser!.name}",
+                                  "Hi, ${customUser!.name}",
                                   style: const TextStyle(fontSize: 20, color: Colors.white),
                                 ),
                                 const Text(
-                                  "You can booking a doctor for checkup your health",
+                                  "You can book a doctor for a health checkup",
                                   style: TextStyle(fontSize: 12, color: Colors.white),
                                 ),
                               ],
@@ -88,18 +89,17 @@ class _DoctorConsolationState extends State<DoctorConsolation> {
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                   Text(
-                    "schedule an appointment with a Diagnosis",
+                    "Schedule an appointment with a Diagnosis",
                     style: TextStyle(fontSize: 12, color: Color(0xffC2C2C2)),
                   ),
                 ],
               ),
             ),
             StreamBuilder<List<Doctors>>(
-              stream: DatabaseService()
-                  .getDoctorsData(), // Assume getDoctorsData() is the function you've defined to get the stream
+              stream: DatabaseService().getDoctorsData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator()); // Loading indicator while data is being fetched
+                  return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
@@ -116,9 +116,10 @@ class _DoctorConsolationState extends State<DoctorConsolation> {
                         child: InkWell(
                           onTap: () {
                             showModalBottomSheet(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return Column(children: [
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Column(
+                                  children: [
                                     Text(
                                       selectedDate == null
                                           ? 'Select a date'
@@ -132,15 +133,27 @@ class _DoctorConsolationState extends State<DoctorConsolation> {
                                             selectedDate = value;
                                           });
                                         });
-
-
                                       },
                                       child: const Text('Select Date'),
                                     ),
                                     SizedBox(
                                       width: double.infinity,
-                                      child: ElevatedButton(onPressed: (){
-                                        DatabaseService().setAppointmentDate(
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          if (selectedDate == null) {
+                                            Fluttertoast.showToast(
+                                              msg: "Please select a date first",
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.red,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0,
+                                            );
+                                            return;
+                                          }
+
+                                          DatabaseService().setAppointmentDate(
                                             doctor.uid,
                                             doctor.name,
                                             doctor.image,
@@ -149,23 +162,26 @@ class _DoctorConsolationState extends State<DoctorConsolation> {
                                             doctor.rating,
                                             selectedDate!,
                                             doctor.time,
-                                            widget.userId).then((value) {
-                                          Fluttertoast.showToast(
+                                            widget.userId,
+                                          ).then((value) {
+                                            Fluttertoast.showToast(
                                               msg: "Successfully appointment done",
                                               toastLength: Toast.LENGTH_SHORT,
                                               gravity: ToastGravity.CENTER,
                                               timeInSecForIosWeb: 1,
                                               backgroundColor: Colors.green,
                                               textColor: Colors.black,
-                                              fontSize: 16.0
-                                          );
-                                        });
-                                      }, child: const Text("confirm")),
+                                              fontSize: 16.0,
+                                            );
+                                          });
+                                        },
+                                        child: const Text("Confirm Appointment"),
+                                      ),
                                     )
-                                  ]);
-
-                                });
-                            // Handle the onTap event
+                                  ],
+                                );
+                              },
+                            );
                           },
                           child: Container(
                             height: 100,
@@ -182,7 +198,9 @@ class _DoctorConsolationState extends State<DoctorConsolation> {
                                     height: 70,
                                     width: 70,
                                     decoration: BoxDecoration(
-                                      image: DecorationImage(image: NetworkImage(doctor.image)),
+                                      image: DecorationImage(
+                                        image: NetworkImage(doctor.image),
+                                      ),
                                       color: const Color(0xffE2E2E8),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -195,9 +213,13 @@ class _DoctorConsolationState extends State<DoctorConsolation> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(doctor.name),
-                                      Text(doctor.department,
-                                          style: const TextStyle(
-                                              fontSize: 12, color: Color(0xffC2C2C2))),
+                                      Text(
+                                        doctor.department,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xffC2C2C2),
+                                        ),
+                                      ),
                                       Row(
                                         children: [
                                           RatingBar.builder(
@@ -222,9 +244,13 @@ class _DoctorConsolationState extends State<DoctorConsolation> {
                                       Row(
                                         children: [
                                           const Icon(Icons.timer, color: Color(0xffC2C2C2)),
-                                          Text("${doctor.time}",
-                                              style: const TextStyle(
-                                                  fontSize: 12, color: Color(0xffC2C2C2))),
+                                          Text(
+                                            "${doctor.time}",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xffC2C2C2),
+                                            ),
+                                          ),
                                         ],
                                       )
                                     ],
