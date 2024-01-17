@@ -7,24 +7,29 @@ import 'package:nutritionapp/BMR and Calorie/Result.dart';
 
 class DatabaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final CollectionReference _userCollection = FirebaseFirestore.instance.collection('users');
-  final CollectionReference _bmiRecordsCollection = FirebaseFirestore.instance.collection('bmi_records');
-  final CollectionReference _bmrRecordsCollection = FirebaseFirestore.instance.collection('bmr_records');
+  final CollectionReference _userCollection = FirebaseFirestore.instance
+      .collection('users');
+  final CollectionReference _bmiRecordsCollection = FirebaseFirestore.instance
+      .collection('bmi_records');
+  final CollectionReference _bmrRecordsCollection = FirebaseFirestore.instance
+      .collection('bmr_records');
+
 //  final CollectionReference _bmrRecordsCollection = FirebaseFirestore.instance.collection('bmr_records');
 
 
-
-
-  Future createUserDoc(String uid, String name, String email, String role) async {
+  Future createUserDoc(String uid, String name, String email,
+      String role) async {
     final docUser = _userCollection.doc(uid);
     final CustomUser customUser = CustomUser(uid, name, email, role);
     final jsonUser = customUser.toJson();
     return await docUser.set(jsonUser);
   }
 
-  Future registerUser(String name, String email, String password, String role) async {
+  Future registerUser(String name, String email, String password,
+      String role) async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
       User? user = userCredential.user;
 
       await createUserDoc(user!.uid, name, email, role);
@@ -36,7 +41,8 @@ class DatabaseService {
   }
 
   CustomUser userObjectFromSnapshot(DocumentSnapshot snapshot) {
-    return CustomUser(snapshot.id, snapshot.get('name'), snapshot.get('email'), snapshot.get('role'));
+    return CustomUser(snapshot.id, snapshot.get('name'), snapshot.get('email'),
+        snapshot.get('role'));
   }
 
   Stream<CustomUser> getUserByUserID(String uid) {
@@ -45,7 +51,8 @@ class DatabaseService {
 
   Future loginUser(String email, String password) async {
     try {
-      return await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
     } catch (message) {
       print(message.toString());
       return message.toString();
@@ -60,7 +67,8 @@ class DatabaseService {
     }
   }
 
-  Future storeBMIRecord(String uid, double weight, int heightFt, int heightInch, double bmi) async {
+  Future storeBMIRecord(String uid, double weight, int heightFt, int heightInch,
+      double bmi) async {
     try {
       await _bmiRecordsCollection.add({
         'uid': uid,
@@ -77,9 +85,9 @@ class DatabaseService {
 
   final CollectionReference _doctorCollection =
   FirebaseFirestore.instance.collection('doctor');
+
   Stream<List<Doctors>> getDoctorsData() {
     return _doctorCollection.snapshots().map((QuerySnapshot querySnapshot) {
-
       return querySnapshot.docs.map((QueryDocumentSnapshot documentSnapshot) {
         return Doctors(
           documentSnapshot.get('image'),
@@ -93,25 +101,27 @@ class DatabaseService {
       }).toList();
     });
   }
-  Future setAppointmentDate(String uid,String name,String image, bool appointment,String department,String rating,DateTime date,String time,String userId)async{
 
-    try{
+  Future setAppointmentDate(String uid, String name, String image,
+      bool appointment, String department, String rating, DateTime date,
+      String time, String userId) async {
+    try {
       await FirebaseFirestore.instance.collection('doctor').doc(uid).update({
         'name': name,
         'image': image,
         'appointment': appointment,
         'department': department,
-        'time':time,
-        'uid':uid,
-        'date':date,
-        'rating':rating,
-        'userUid':userId
-
+        'time': time,
+        'uid': uid,
+        'date': date,
+        'rating': rating,
+        'userUid': userId
       });
-    }on FirebaseException catch(e){
+    } on FirebaseException catch (e) {
       print("error  is  ========>${e}");
     }
   }
+
   Future selectDate(BuildContext context) async {
     DateTime selectedDate = DateTime.now();
 
@@ -129,7 +139,8 @@ class DatabaseService {
     return selectedDate;
   }
 
-  Future storeBMRData(String uid, double bmr, String currentCalorie, String goalCalorie, DateTime date) async {
+  Future storeBMRData(String uid, double bmr, String currentCalorie,
+      String goalCalorie, DateTime date) async {
     try {
       await _bmrRecordsCollection.add({
         'uid': uid,
@@ -143,9 +154,17 @@ class DatabaseService {
     }
   }
 
-  Future<void> storeBMRHistory(String uid, double bmr, String currentCalorie, String goalCalorie, DateTime date) async {
+  Future<void> storeBMRHistory(String userUID, // Add user's UID parameter
+      double bmr,
+      String currentCalorie,
+      String goalCalorie,
+      DateTime date,) async {
     try {
-      await FirebaseFirestore.instance.collection('bmr_history').doc(uid).collection('history').add({
+      await FirebaseFirestore.instance
+          .collection('bmr_history')
+          .doc(userUID) // Use the user's UID in the document path
+          .collection('history')
+          .add({
         'bmr': bmr,
         'currentCalorie': currentCalorie,
         'goalCalorie': goalCalorie,
@@ -155,7 +174,7 @@ class DatabaseService {
       print('Error storing BMR history: $e');
     }
   }
-  }
+}
 
 
 

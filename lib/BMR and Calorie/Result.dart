@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:nutritionapp/BMR and Calorie/ReusableCard.dart';
 import 'package:nutritionapp/databaseService.dart';
 import '../Meal Planner/Common/colo_extension.dart';
-import '';
 
 class Result extends StatelessWidget {
   final String status, msg;
@@ -40,7 +39,6 @@ class Result extends StatelessWidget {
           ),
         ],
       ),
-
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -181,24 +179,34 @@ class Result extends StatelessWidget {
             minWidth: double.infinity,
             child: GestureDetector(
               onTap: () async {
-                // Fetch the authenticated user
                 User? user = await FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-    await databaseService.storeBMRData(user.uid, double.parse(bmr), currentCalorie, goalCalorie, DateTime.now());
-    await databaseService.storeBMRHistory(user.uid, double.parse(bmr), currentCalorie, goalCalorie, DateTime.now());
+                if (user != null) {
+                  String documentId = user.uid; // Unique document ID for each user
 
-    ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text('BMR data saved successfully!'),
-    ),
-    );
-    }
-    },
+                  await databaseService.storeBMRData(
+                    documentId,
+                    double.parse(bmr),
+                    currentCalorie,
+                    goalCalorie,
+                    DateTime.now(),
+                  );
 
-                // Do not navigate back to the previous screen
-                // Navigator.pop(context);
+                  await databaseService.storeBMRHistory(
+                    documentId,
+                    double.parse(bmr),
+                    currentCalorie,
+                    goalCalorie,
+                    DateTime.now(),
+                  );
 
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('BMR data saved successfully!'),
+                    ),
+                  );
+                }
+              },
               child: Container(
                 color: Color(0xffbb86fc),
                 padding: EdgeInsets.symmetric(vertical: 7),
@@ -210,7 +218,7 @@ class Result extends StatelessWidget {
                       SnackBar(
                         behavior: SnackBarBehavior.floating,
                         duration: Duration(seconds: 3),
-                        content: Text("Save Your Data"),  // Change the message as needed
+                        content: Text("Save Your Data"), // Change the message as needed
                       ),
                     );
                   },
@@ -238,7 +246,6 @@ class BMRHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
-    print('User UID: ${user?.uid}');
 
     return Scaffold(
       appBar: AppBar(
@@ -246,7 +253,11 @@ class BMRHistory extends StatelessWidget {
         centerTitle: true,
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('bmr_history').doc(user?.uid).collection('history').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('bmr_history')
+            .doc(user?.uid)
+            .collection('history')
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             print('No data available');
@@ -263,8 +274,9 @@ class BMRHistory extends StatelessWidget {
               var historyData = historyDocs[index].data();
               return ListTile(
                 title: Text('BMR: ${historyData['bmr']}'),
-                subtitle: Text('Goal Calorie: ${historyData['goalCalorie']} | Date: ${historyData['date'].toDate()}'),
-                // Add other fields as needed
+                subtitle: Text(
+                  'Goal Calorie: ${historyData['goalCalorie']} | Date: ${historyData['date'].toDate()}',
+                ),
               );
             },
           );
