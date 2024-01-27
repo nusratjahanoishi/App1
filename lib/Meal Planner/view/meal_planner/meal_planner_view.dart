@@ -91,7 +91,7 @@ class _MealPlannerViewState extends State<MealPlannerView> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      const MealScheduleView(),
+                                  const MealScheduleView(),
                                 ),
                               );
                             },

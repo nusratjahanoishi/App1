@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nutritionapp/Setup/allfoodsmodel.dart';
 import 'package:nutritionapp/doctors.dart';
 import 'package:nutritionapp/user.dart';
 import 'package:nutritionapp/BMR and Calorie/Result.dart';
@@ -185,8 +186,24 @@ class DatabaseService {
   }
 
 // Implement your other methods as needed, e.g., getUserByUserID, logoutUser
-}
+  final CollectionReference _foodCollection = FirebaseFirestore.instance.collection('food');
+  Stream<List<AllFoodModel>> getAllFood() {
+    return _foodCollection.snapshots().map((QuerySnapshot querySnapshot) {
+      return querySnapshot.docs.map((QueryDocumentSnapshot documentSnapshot) {
+        print("================>${documentSnapshot.data()}");
+        return AllFoodModel(
+          documentSnapshot.get('image') ?? "", // provide a default value if null
+          documentSnapshot.get('protein') ?? "",
+          documentSnapshot.get('name') ?? "",
+          documentSnapshot.get('ready') ?? "",
+          documentSnapshot.get('isvagitarian') ?? false,
+        );
+      }).toList();
+    });
+  }
 
+
+}
 
 
 
