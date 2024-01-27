@@ -5,6 +5,7 @@ import 'package:nutritionapp/BMR and Calorie/InputPage.dart';
 import 'package:nutritionapp/pages/EditProfileScreen.dart';
 import 'package:nutritionapp/pages/massage.dart';
 import 'package:nutritionapp/pages/nonvegetarianfood.dart';
+import 'package:nutritionapp/pages/search.dart';
 import 'package:nutritionapp/pages/setting.dart';
 import 'package:nutritionapp/pages/vegetarianfood.dart';
 
@@ -172,12 +173,12 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         )),
                         FadeInUp(duration: Duration(milliseconds: 1300), child: IconButton(
                           icon: Icon(Icons.search, color: Colors.black,), onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => SettingsPage(),
-                          //   ),
-                          // );
+                            Navigator.push(
+                             context,
+                             MaterialPageRoute(
+                                builder: (context) => FoodSearchScreen(),
+                             ),
+                           );
                         },
                         )),
                       ],
