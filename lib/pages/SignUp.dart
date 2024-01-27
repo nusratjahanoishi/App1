@@ -24,7 +24,9 @@ class _signupState extends State<signup> {
   Widget build(BuildContext context) {
     return FadeInUp(
       child: Container(
-        decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/p23.png'),fit: BoxFit.fitWidth)),
+        height: double.infinity,
+
+        decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/p23.png'),fit: BoxFit.cover)),
       
         child: Scaffold(
           backgroundColor:Colors.transparent ,
@@ -32,7 +34,8 @@ class _signupState extends State<signup> {
             children: [
               FadeInUp(
                 child: Container(
-                    padding: EdgeInsets.only(left: 140,top: 150),
+                    padding: EdgeInsets.only(left: 93,top: 150),
+
                     child: Text("New Account",style: TextStyle(
                       color: Colors.lightGreen,
                       fontSize: 40,

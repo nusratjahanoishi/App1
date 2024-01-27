@@ -89,6 +89,7 @@ class _BMIPageState extends State<BMIPage> {
       ),
       body: FadeInUp(
         child: Container(
+          height: double.infinity,
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/p23.png'),
