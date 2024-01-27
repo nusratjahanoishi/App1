@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           ),
         );
 
-      }, child: Text("Normal Button"));
+      }, child: Text("Profile"));
     } else if (role == "role_admin_user") {
       return Row(
         children: [
@@ -109,13 +109,13 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                           children: [
                                             DrawerHeader(
                                               decoration: BoxDecoration(
-                                                color: Colors.blue,
+                                                color: Colors.white,
                                               ),
                                               child: Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("Name: ${customUser?.name}", style: TextStyle(fontSize: 20, color: Colors.white),),
-                                                  Text("Email: ${customUser?.email}", style: TextStyle(fontSize: 20, color: Colors.white),),
+                                                  Text("Name: ${customUser?.name}", style: TextStyle(fontSize: 20, color: Colors.black),),
+                                                  Text("Email: ${customUser?.email}", style: TextStyle(fontSize: 20, color: Colors.black),),
                                                   //Text("User ID: ${customUser?.uid}", style: TextStyle(fontSize: 20, color: Colors.white),),
                                                   //Text("Role: ${customUser?.role}", style: TextStyle(fontSize: 20, color: Colors.white),),
                                                 ],
@@ -132,7 +132,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                           ],
                                         );
                                       } else {
-                                        return Text("Data Not Found");
+                                        return Text("Loading");
                                       }
                                     },
                                   );
@@ -153,7 +153,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   //crossAxisAlignment: ,
                                   children: [
                                     Text(
-                                      "Welcome To Leaflife",
+                                      "Welcome to LifeLeaf",
                                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                                     ),
                                   ],
@@ -383,7 +383,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   height: MediaQuery.of(context).size.height / 4,
                                   width: MediaQuery.of(context).size.width / 1,
                                   child: Image.asset(
-                                    'assets/bdp digital zone.png',
+                                    'illustrated-person-texting-business-in-park(1).jpeg',
                                     fit: BoxFit.cover,
                                     height: MediaQuery.of(context).size.height / 4,
                                     width: MediaQuery.of(context).size.width / 1,

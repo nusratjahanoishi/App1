@@ -69,11 +69,11 @@ class DatabaseService {
     }
   }
 
-  Future storeBMIRecord(String uid, double weight, int heightFt, int heightInch,
-      double bmi) async {
+  Future<void> storeBMIRecord(
+      String uid, double weight, int heightFt, int heightInch, double bmi) async {
     try {
       await _bmiRecordsCollection.add({
-        'uid': uid,
+        'user_uid': uid, // Add user UID
         'weight': weight,
         'height_ft': heightFt,
         'height_inch': heightInch,
@@ -83,6 +83,18 @@ class DatabaseService {
     } catch (e) {
       print("Error storing BMI record: $e");
     }
+  }
+
+  Stream<List<Map<String, dynamic>>> fetchBMIRecords(String uid) {
+    return _bmiRecordsCollection
+        .where('user_uid', isEqualTo: uid) // Filter by user UID
+        .orderBy('date', descending: true)
+        .snapshots()
+        .map((QuerySnapshot querySnapshot) {
+      return querySnapshot.docs.map((DocumentSnapshot documentSnapshot) {
+        return documentSnapshot.data() as Map<String, dynamic>;
+      }).toList();
+    });
   }
 
   final CollectionReference _doctorCollection =
@@ -201,6 +213,7 @@ class DatabaseService {
       }).toList();
     });
   }
+
 
 
 }
