@@ -4,6 +4,7 @@ import 'package:nutritionapp/pages/doctos_consultation.dart';
 import 'package:nutritionapp/BMR and Calorie/InputPage.dart';
 import 'package:nutritionapp/pages/EditProfileScreen.dart';
 import 'package:nutritionapp/pages/massage.dart';
+import 'package:nutritionapp/pages/nonvegetarianfood.dart';
 import 'package:nutritionapp/pages/setting.dart';
 import 'package:nutritionapp/pages/vegetarianfood.dart';
 
@@ -161,6 +162,16 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         ),
                         FadeInUp(duration: Duration(milliseconds: 1300), child: IconButton(
                           icon: Icon(Icons.settings, color: Colors.black,), onPressed: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => SettingsPage(),
+                          //   ),
+                          // );
+                        },
+                        )),
+                        FadeInUp(duration: Duration(milliseconds: 1300), child: IconButton(
+                          icon: Icon(Icons.search, color: Colors.black,), onPressed: () {
                           // Navigator.push(
                           //   context,
                           //   MaterialPageRoute(
@@ -451,6 +462,14 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         // Add your action for the first image
         break;
       case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const NonVegetarianFoodScreen(
+                isFromveginarian: true,
+              )),
+        );
+        // Handle the onTap event for the first image
         print('Second image tapped! URL: ${carouselItems[index]}');
         // Add your action for the second image
         break;
