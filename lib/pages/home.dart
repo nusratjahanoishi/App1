@@ -7,6 +7,7 @@ import 'package:nutritionapp/pages/massage.dart';
 import 'package:nutritionapp/pages/nonvegetarianfood.dart';
 import 'package:nutritionapp/pages/search.dart';
 import 'package:nutritionapp/pages/setting.dart';
+import 'package:nutritionapp/pages/settingMain.dart';
 import 'package:nutritionapp/pages/vegetarianfood.dart';
 
 import '../Meal Planner/view/meal_planner/meal_planner_view.dart';
@@ -163,12 +164,12 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         ),
                         FadeInUp(duration: Duration(milliseconds: 1300), child: IconButton(
                           icon: Icon(Icons.settings, color: Colors.black,), onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => SettingsPage(),
-                          //   ),
-                          // );
+                           Navigator.push(
+                            context,
+                           MaterialPageRoute(
+                              builder: (context) => SettingPageUI(),
+                            ),
+                           );
                         },
                         )),
                         FadeInUp(duration: Duration(milliseconds: 1300), child: IconButton(
