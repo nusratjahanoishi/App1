@@ -3,6 +3,9 @@ import 'package:nutritionapp/Meal Planner/Common/colo_extension.dart';
 import 'package:nutritionapp/pages/doctos_consultation.dart';
 import 'package:nutritionapp/BMR and Calorie/InputPage.dart';
 import 'package:nutritionapp/pages/EditProfileScreen.dart';
+import 'package:nutritionapp/pages/massage.dart';
+import 'package:nutritionapp/pages/setting.dart';
+import 'package:nutritionapp/pages/vegetarianfood.dart';
 
 import '../Meal Planner/view/meal_planner/meal_planner_view.dart';
 import '../personalDietplan/planpage.dart';
@@ -13,6 +16,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'BMI.dart';
 import 'package:nutritionapp/personalDietplan/Meals.dart';
+import 'EditProfileScreen.dart';
 
 class Profile extends StatefulWidget {
   final String uid;
@@ -28,12 +32,12 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   Widget roleSpecificWidget(String role) {
     if (role == "role_general_user") {
       return ElevatedButton(onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => Homepage(),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserProfileScreen(),
+          ),
+        );
 
       }, child: Text("Normal Button"));
     } else if (role == "role_admin_user") {
@@ -156,7 +160,14 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                           ),
                         ),
                         FadeInUp(duration: Duration(milliseconds: 1300), child: IconButton(
-                          icon: Icon(Icons.settings, color: Colors.black,), onPressed: () {},
+                          icon: Icon(Icons.settings, color: Colors.black,), onPressed: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => SettingsPage(),
+                          //   ),
+                          // );
+                        },
                         )),
                       ],
                     ),
@@ -351,7 +362,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               child: GestureDetector(
                                 onTap: () {
 
-                                  print('Container pressed!');
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen5()));
+
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
@@ -427,6 +439,13 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   void handleImageTap(int index) {
     switch (index) {
       case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const VegetarianFoodScreen(
+                isFromveginarian: true,
+              )),
+        );
       // Handle the onTap event for the first image
         print('First image tapped! URL: ${carouselItems[index]}');
         // Add your action for the first image
