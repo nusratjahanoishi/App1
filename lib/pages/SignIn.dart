@@ -187,11 +187,11 @@ class _signinState extends State<signin> {
                                 icon: Image.network(
                                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZLQmL6MrQdyrmcqs7hqL51DtWLIKPVr7Znr7ndd9Fiw&s',
                                   fit: BoxFit.cover,
-                                  width: 5,
-                                  height: 5,
+                                  width: 2,
+                                  height: 2,
                                 ),
                                 label: Text(
-                                  "Sign in with Google",
+                                  "Sign with Google",
                                   style: TextStyle(color: Colors.black),
                                 ),
                                 backgroundColor: Colors.white,
