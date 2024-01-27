@@ -7,6 +7,7 @@ import 'package:nutritionapp/BMR and Calorie/Result.dart';
 
 class DatabaseService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference _userCollection = FirebaseFirestore.instance
       .collection('users');
   final CollectionReference _bmiRecordsCollection = FirebaseFirestore.instance
@@ -174,7 +175,18 @@ class DatabaseService {
       print('Error storing BMR history: $e');
     }
   }
+  Future<void> saveUserDetails(String uid, Map<String, dynamic> userDetails) async {
+    await _firestore.collection('users').doc(uid).set(userDetails);
+  }
+
+  Future<Map<String, dynamic>> getUserDetails(String uid) async {
+    DocumentSnapshot userSnapshot = await _firestore.collection('users').doc(uid).get();
+    return userSnapshot.data() as Map<String, dynamic>;
+  }
+
+// Implement your other methods as needed, e.g., getUserByUserID, logoutUser
 }
+
 
 
 

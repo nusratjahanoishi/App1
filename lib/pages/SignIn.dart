@@ -34,6 +34,7 @@ class _signinState extends State<signin> {
   Widget build(BuildContext context) {
     return FadeInUp(
       child: Container(
+        height: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/po1.png'),

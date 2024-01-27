@@ -27,10 +27,12 @@ class _forgetpasswordState extends State<forgetpassword> {
   Widget build(BuildContext context) {
     return BounceInDown(
       child: Container(
+        height: double.infinity,
         decoration: BoxDecoration(
+
           image: DecorationImage(
             image: AssetImage('assets/pw1.png'),
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.cover,
           ),
         ),
         child: Scaffold(
@@ -39,7 +41,7 @@ class _forgetpasswordState extends State<forgetpassword> {
             children: [
               BounceInDown(
                 child: Container(
-                  padding: EdgeInsets.only(left: 100, top: 190),
+                  padding: EdgeInsets.only(left: 93, top: 190),
                   child: Text(
                     "Reset Password",
                     style: TextStyle(

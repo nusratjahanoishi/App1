@@ -8,6 +8,7 @@ import '../firebase_options.dart';
 import '../pages/googlesignin.dart';
 import 'package:nutritionapp/themes/app_theme.dart';
 
+import '../pages/splash.dart';
 import 'authListener.dart';
 
 
@@ -63,7 +64,9 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-      home: Onboarding(),
+      home: splash_page(
+  child:Onboarding()),
+
       routes: {
         '/cart': (context) => const CartPage(),
       },
