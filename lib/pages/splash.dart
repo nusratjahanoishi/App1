@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -26,10 +27,12 @@ class _splash_pageState extends State<splash_page> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage('hd2.png'), fit: BoxFit.cover),
+    return FadeInDown(
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('hd2.png'), fit: BoxFit.cover),
+        ),
       ),
     );
 
